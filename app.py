@@ -1,9 +1,10 @@
+import os
+os.environ['MPLCONFIGDIR'] = '/tmp/matplotlib'
 from flask import Flask, render_template, request
 from math import comb
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import binom
-import os
 
 app = Flask(__name__)
 
