@@ -7,4 +7,4 @@ matplotlib==3.7.0
 numpy<2
 pybind11>=2.12
 gunicorn==20.1.0
-scipy==1.11.2  # Pastikan versi terbaru yang kompatibel
+scipy==1.11.2
