@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Distribusi Binomial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Distribusi Binomial</h1>
+        <form method="POST" action="/calculate">
+            <div class="form-group">
+                <label for="n">Jumlah percobaan (n):</label>
+                <input type="number" id="n" name="n" required>
+            </div>
+            <div class="form-group">
+                <label for="p">Probabilitas keberhasilan (p):</label>
+                <input type="number" id="p" name="p" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="k">Jumlah keberhasilan (k):</label>
+                <input type="number" id="k" name="k" required>
+            </div>
+            <button type="submit">Hitung</button>
+        </form>
+        {% if result %}
+        <h2>Hasil: {{ result }}</h2>
+        <pre>{{ steps }}</pre>
+        <h2>Plot:</h2>
+        <div>
+            <h3>Fungsi Massa Probabilitas (PMF):</h3>
+            <img src="{{ pmf_path }}" alt="PMF Plot" style="max-width: 100%;">
+        </div>
+        <div>
+            <h3>Fungsi Distribusi Kumulatif (CDF):</h3>
+            <img src="{{ cdf_path }}" alt="CDF Plot" style="max-width: 100%;">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
