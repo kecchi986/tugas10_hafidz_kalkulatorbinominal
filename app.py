@@ -63,18 +63,25 @@ def home():
 @app.route('/calculate', methods=['POST'])
 def calculate():
     try:
+        # Mendapatkan input dari form
         n = int(request.form['n'])
         p = float(request.form['p'])
         k = int(request.form['k'])
 
+        # Validasi input
         if not (0 <= p <= 1):
             return render_template('index.html', error="Probabilitas p harus berada dalam rentang 0 hingga 1.")
         if not (0 <= k <= n):
             return render_template('index.html', error="Jumlah keberhasilan k harus berada dalam rentang 0 hingga n.")
+        if n <= 0:
+            return render_template('index.html', error="Jumlah percobaan n harus lebih besar dari 0.")
 
+        # Menghitung probabilitas dan langkah perhitungan
         probability, steps = binomial_probability(n, p, k)
+        # Membuat plot PMF dan CDF
         pmf_path, cdf_path = plot_pmf_cdf(n, p)
 
+        # Menampilkan hasil pada template
         return render_template(
             'index.html',
             result=f'Probabilitas: {probability:.5f}',
