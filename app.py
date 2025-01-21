@@ -4,14 +4,12 @@ from flask import Flask, render_template, request
 from math import comb
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import binom
 
 app = Flask(__name__)
 
 # Folder untuk menyimpan gambar plot
 PLOT_FOLDER = 'static/plots'
 os.makedirs(PLOT_FOLDER, exist_ok=True)
-
 
 def binomial_probability(n, p, k):
     """Menghitung probabilitas binomial dan langkah perhitungan"""
@@ -28,12 +26,11 @@ def binomial_probability(n, p, k):
     )
     return probability, steps
 
-
 def plot_pmf_cdf(n, p):
     """Membuat plot PMF dan CDF untuk distribusi binomial"""
     x = np.arange(0, n + 1)
-    pmf = binom.pmf(x, n, p)
-    cdf = binom.cdf(x, n, p)
+    pmf = [binomial_probability(n, p, k)[0] for k in x]
+    cdf = np.cumsum(pmf)  # Menghitung CDF manual
 
     # Plot PMF
     plt.figure(figsize=(10, 5))
@@ -59,11 +56,9 @@ def plot_pmf_cdf(n, p):
 
     return pmf_path, cdf_path
 
-
 @app.route('/')
 def home():
     return render_template('index.html')
-
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
@@ -89,7 +84,6 @@ def calculate():
         )
     except ValueError:
         return render_template('index.html', error="Input tidak valid. Pastikan semua nilai diisi dengan benar.")
-
 
 if __name__ == '__main__':
     app.run(debug=True)
